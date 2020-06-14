@@ -41,7 +41,7 @@ export class SpreadsheetBuilder implements Required<SpreadsheetBuilderArgs>{
         sheet.setValue(entitySheetSetting.baseRow + 1, entitySheetSetting.baseColumn + index, field.comment);
         sheet.setValue(entitySheetSetting.baseRow + 2, entitySheetSetting.baseColumn + index, field.name);
       });
-      columnCount += entitySheetSetting.entityDef.fields.length;
+      columnCount += entitySheetSetting.entityDef.fields.length + 1;
 
       // Entityのリレーションの定義
       entitySheetSetting.entityDef.relations.forEach((relation) => {
