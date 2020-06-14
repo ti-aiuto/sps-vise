@@ -51,16 +51,17 @@ export class SpreadsheetBuilder implements Required<SpreadsheetBuilderArgs>{
 
       // Entityのリレーションの定義
       entitySheetSetting.entityDef.relations.forEach((relation) => {
+        sheet.setValue(entitySheetSetting.baseRow + 0, entitySheetSetting.baseColumn + columnCount + 0, `${relation.relationType}`);
+        sheet.setValue(entitySheetSetting.baseRow + 2, entitySheetSetting.baseColumn + columnCount + 0, `${entitySheetSetting.entityDef.name}#id`);
+        sheet.setValue(entitySheetSetting.baseRow + 2, entitySheetSetting.baseColumn + columnCount + 2, `${relation.targetEntityName}#id`);
+
         sheet.setTableBorderRange(
           entitySheetSetting.baseRow,
           entitySheetSetting.baseColumn + columnCount,
           entitySheetSetting.size + 3,
-          5
+          4
         );
-
-        sheet.setValue(entitySheetSetting.baseRow + 0, entitySheetSetting.baseColumn + columnCount + 0, `${relation.relationType}`);
-        sheet.setValue(entitySheetSetting.baseRow + 2, entitySheetSetting.baseColumn + columnCount + 0, `${entitySheetSetting.entityDef.name}#id`);
-        sheet.setValue(entitySheetSetting.baseRow + 2, entitySheetSetting.baseColumn + columnCount + 2, `${relation.targetEntityName}#id`);
+        
         columnCount += 5;
       });
 
