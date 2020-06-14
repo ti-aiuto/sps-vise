@@ -19,7 +19,7 @@ export class SheetBuilder implements Required<SheetBuilderArgs>{
   size: number;
 
   constructor(
-    private args: SheetBuilderArgs
+    args: SheetBuilderArgs
   ) {
     // TODO: ここに定義のバリデーション入れる
     this.sheet = args.sheet;

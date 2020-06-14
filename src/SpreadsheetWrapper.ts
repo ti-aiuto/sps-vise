@@ -1,7 +1,7 @@
 import { SheetWrapper, GoogleSheetWrpaper } from "./SheetWrapper";
 
 export interface SpreadsheetWrapper {
-  getSheetByName(name: string): SheetWrapper;
+  getSheetByName(name: string): SheetWrapper | null;
 }
 
 export class GoogleSpreadsheetWrapper implements SpreadsheetWrapper {
@@ -10,7 +10,11 @@ export class GoogleSpreadsheetWrapper implements SpreadsheetWrapper {
   ) {
   }
 
-  getSheetByName(name: string): SheetWrapper {
-    return new GoogleSheetWrpaper(this.googleSpreadsheet.getSheetByName(name));
+  getSheetByName(name: string): SheetWrapper | null {
+    const googleSheet = this.googleSpreadsheet.getSheetByName(name);
+    if (!googleSheet) {
+      return null;
+    }
+    return new GoogleSheetWrpaper(googleSheet);
   }
 }
