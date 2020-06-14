@@ -4,16 +4,16 @@ import { EntityValue } from "./EntityValue";
 interface SpreadsheetBuilderArgs {
   entityDef: EntityDef;
   sheetName: string;
-  baseX?: string | undefined;
-  baseY?: string | undefined;
+  baseX?: number | undefined;
+  baseY?: number | undefined;
   values?: EntityValue[] | undefined;
 }
 
 export class SpreadsheetBuilder implements Required<SpreadsheetBuilderArgs>{
   entityDef: EntityDef;
   sheetName: string;
-  baseX: string;
-  baseY: string;
+  baseX: number;
+  baseY: number;
   values: EntityValue[];
 
   constructor(
@@ -22,8 +22,8 @@ export class SpreadsheetBuilder implements Required<SpreadsheetBuilderArgs>{
     // TODO: ここに定義のバリデーション入れる
     this.entityDef = args.entityDef;
     this.sheetName = args.sheetName;
-    this.baseX = args.baseX ?? '';
-    this.baseY = args.baseY ?? '';
+    this.baseX = args.baseX ?? 0;
+    this.baseY = args.baseY ?? 0;
     this.values = args.values ?? [];
   }
 
