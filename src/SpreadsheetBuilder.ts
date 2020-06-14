@@ -10,6 +10,7 @@ interface SpreadsheetBuilderArgs {
 
 export class SpreadsheetBuilder implements Required<SpreadsheetBuilderArgs>{
   spreadsheet: SpreadsheetWrapper;
+
   entitySheetSettings: EntitySheetSettings[];
 
   constructor(

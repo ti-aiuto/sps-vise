@@ -12,9 +12,13 @@ export interface EntitySheetSettingArgs {
 
 export class EntitySheetSettings implements Required<EntitySheetSettingArgs> {
   entityDef: EntityDef;
+  
   sheetName: string;
+
   baseRow: number;
+  
   baseColumn: number;
+  
   size: number;
 
   constructor(args: EntitySheetSettingArgs) {
