@@ -39,13 +39,13 @@ export class SpreadsheetBuilder implements Required<SpreadsheetBuilderArgs>{
         sheet.setValue(entitySheetSetting.baseRow + 1, entitySheetSetting.baseColumn + index, field.comment);
         sheet.setValue(entitySheetSetting.baseRow + 2, entitySheetSetting.baseColumn + index, field.name);
       });
-      sheet.setTableBorder(
+      sheet.setTableBorderRange(
         entitySheetSetting.baseRow,
         entitySheetSetting.baseColumn,
         entitySheetSetting.size + 3,
         entitySheetSetting.entityDef.fields.length
       );
-      sheet.setNumberFormat(
+      sheet.setNumberFormatRange(
         entitySheetSetting.baseRow,
         entitySheetSetting.baseColumn,
         entitySheetSetting.size + 3,
