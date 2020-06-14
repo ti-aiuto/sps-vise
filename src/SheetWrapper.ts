@@ -19,12 +19,14 @@ export class GoogleSheetWrpaper implements SheetWrapper {
     this.googleSheet.setConditionalFormatRules([]);
   }
 
+  // TODO: 本当は正規表現などエスケープ必要
+
   setRegexConditionalFormat(rowFrom: number, columnFrom: number, rowTo: number, columnTo: number, regex: string, backgroundColor: string): void {
     const rules = this.googleSheet.getConditionalFormatRules();
     for (let row = rowFrom; row <= rowTo; row++) {
       for (let column = columnFrom; column <= columnTo; column++) {
         const rule = SpreadsheetApp.newConditionalFormatRule()
-          .whenFormulaSatisfied(`=REGEXMATCH(INDIRECT(ADDRESS(${row}, ${column})), "${JSON.stringify(regex)}")`)
+          .whenFormulaSatisfied(`=REGEXMATCH(INDIRECT(ADDRESS(${row}, ${column})), "${regex}")`)
           .setBackground(backgroundColor)
           .setRanges([this.googleSheet.getRange(row, column)])
           .build();
@@ -33,13 +35,13 @@ export class GoogleSheetWrpaper implements SheetWrapper {
     }
     this.googleSheet.setConditionalFormatRules(rules);
   }
-  
+
   setRegexConditionalFormatNegative(rowFrom: number, columnFrom: number, rowTo: number, columnTo: number, regex: string, backgroundColor: string): void {
     const rules = this.googleSheet.getConditionalFormatRules();
     for (let row = rowFrom; row <= rowTo; row++) {
       for (let column = columnFrom; column <= columnTo; column++) {
         const rule = SpreadsheetApp.newConditionalFormatRule()
-          .whenFormulaSatisfied(`=NOT(REGEXMATCH(INDIRECT(ADDRESS(${row}, ${column})), "${JSON.stringify(regex)}"))`)
+          .whenFormulaSatisfied(`=NOT(REGEXMATCH(INDIRECT(ADDRESS(${row}, ${column})), "${regex}"))`)
           .setBackground(backgroundColor)
           .setRanges([this.googleSheet.getRange(row, column)])
           .build();
