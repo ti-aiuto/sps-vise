@@ -3,6 +3,7 @@ export interface SheetWrapper {
   setValue(row: number, column: number, value: string): void;
   setTableBorderRange(rowFrom: number, columnFrom: number, rowTo: number, columnTo: number): void;
   setNumberFormatRange(rowFrom: number, columnFrom: number, rowSize: number, columnSize: number, format: string): void;
+  mergeRange(rowFrom: number, columnFrom: number, rowSize: number, columnSize: number): void;
   setRegexConditionalFormatRules(rowFrom: number, columnFrom: number, rowTo: number, columnTo: number, regex: string, backgroundColor: string): void;
   setRegexConditionalFormatRulesNegative(rowFrom: number, columnFrom: number, rowTo: number, columnTo: number, regex: string, backgroundColor: string): void;
   clearConditionalFormatRules(): void;
@@ -32,6 +33,11 @@ export class GoogleSheetWrpaper implements SheetWrapper {
   setNumberFormatRange(rowFrom: number, columnFrom: number, rowSize: number, columnSize: number, format: string): void {
     const range = this.googleSheet.getRange(rowFrom, columnFrom, rowSize, columnSize);
     range.setNumberFormat(format);
+  }
+
+  mergeRange(rowFrom: number, columnFrom: number, rowSize: number, columnSize: number): void {
+    const range = this.googleSheet.getRange(rowFrom, columnFrom, rowSize, columnSize);
+    range.merge();
   }
 
   clearConditionalFormatRules(): void {
