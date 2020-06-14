@@ -33,7 +33,7 @@ export class SheetBuilder implements Required<SheetBuilderArgs>{
     this.size = args.size ?? MAX_SIZE;
   }
 
-  build() {
+  build(): void {
     this.entityDef.fields.forEach((field, index) => {
       this.sheet.setValue(this.baseX + 0, this.baseY + index, field.comment);
       this.sheet.setValue(this.baseX + 1, this.baseY + index, field.name);
