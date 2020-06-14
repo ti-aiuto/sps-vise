@@ -36,8 +36,6 @@ export class SpreadsheetBuilder implements Required<SpreadsheetBuilderArgs>{
       sheet.setValue(entitySheetSetting.baseRow + 0, entitySheetSetting.baseColumn + 0, entitySheetSetting.entityDef.name);
       sheet.mergeRange(entitySheetSetting.baseRow + 0, entitySheetSetting.baseColumn + 0, 1, entitySheetSetting.entityDef.fields.length);
 
-      let columnCount = 0;
-
       // Entityの定義
       entitySheetSetting.entityDef.fields.forEach((field, index) => {
         sheet.setValue(entitySheetSetting.baseRow + 1, entitySheetSetting.baseColumn + index, field.comment);
@@ -49,34 +47,39 @@ export class SpreadsheetBuilder implements Required<SpreadsheetBuilderArgs>{
         entitySheetSetting.size + 3,
         entitySheetSetting.entityDef.fields.length
       );
-      columnCount += entitySheetSetting.entityDef.fields.length + 1;
-
-      // Entityのリレーションの定義
-      entitySheetSetting.entityDef.relations.forEach((relation) => {
-        sheet.setValue(entitySheetSetting.baseRow + 0, entitySheetSetting.baseColumn + columnCount + 0, `${relation.relationType}`);
-        sheet.mergeRange(entitySheetSetting.baseRow + 0, entitySheetSetting.baseColumn + columnCount + 0, 1, 4);
-
-        sheet.setValue(entitySheetSetting.baseRow + 2, entitySheetSetting.baseColumn + columnCount + 0, `${entitySheetSetting.entityDef.name}#id`);
-        sheet.mergeRange(entitySheetSetting.baseRow + 2, entitySheetSetting.baseColumn + columnCount + 0, 1, 2);
-        sheet.setValue(entitySheetSetting.baseRow + 2, entitySheetSetting.baseColumn + columnCount + 2, `${relation.targetEntityName}#id`);
-        sheet.mergeRange(entitySheetSetting.baseRow + 2, entitySheetSetting.baseColumn + columnCount + 2, 1, 2);
-        sheet.setTableBorderRange(
-          entitySheetSetting.baseRow,
-          entitySheetSetting.baseColumn + columnCount,
-          entitySheetSetting.size + 3,
-          4
-        );
-
-        columnCount += 5;
-      });
-
       sheet.setNumberFormatRange(
         entitySheetSetting.baseRow,
         entitySheetSetting.baseColumn,
         entitySheetSetting.size + 3,
-        columnCount,
+        entitySheetSetting.entityDef.fields.length,
         '@'
       );
+
+      // Entityのリレーションの定義
+      entitySheetSetting.entityDef.relations.forEach((relation, index) => {
+        const currentColumnPosition = entitySheetSetting.entityDef.fields.length + 1 + index * 5;
+
+        sheet.setValue(entitySheetSetting.baseRow + 0, entitySheetSetting.baseColumn + currentColumnPosition + 0, `${relation.relationType}`);
+        sheet.mergeRange(entitySheetSetting.baseRow + 0, entitySheetSetting.baseColumn + currentColumnPosition + 0, 1, 4);
+
+        sheet.setValue(entitySheetSetting.baseRow + 2, entitySheetSetting.baseColumn + currentColumnPosition + 0, `${entitySheetSetting.entityDef.name}#id`);
+        sheet.mergeRange(entitySheetSetting.baseRow + 2, entitySheetSetting.baseColumn + currentColumnPosition + 0, 1, 2);
+        sheet.setValue(entitySheetSetting.baseRow + 2, entitySheetSetting.baseColumn + currentColumnPosition + 2, `${relation.targetEntityName}#id`);
+        sheet.mergeRange(entitySheetSetting.baseRow + 2, entitySheetSetting.baseColumn + currentColumnPosition + 2, 1, 2);
+        sheet.setTableBorderRange(
+          entitySheetSetting.baseRow,
+          entitySheetSetting.baseColumn + currentColumnPosition,
+          entitySheetSetting.size + 3,
+          4
+        );
+        sheet.setNumberFormatRange(
+          entitySheetSetting.baseRow,
+          entitySheetSetting.baseColumn + currentColumnPosition,
+          entitySheetSetting.size + 3,
+          4,
+          '@'
+        );
+      });
     });
   }
 }
