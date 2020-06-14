@@ -1,6 +1,6 @@
 export interface EntityFieldDefArgs {
   name: string;
-  dataType: 'string' | 'number' | 'integer';
+  dataType: 'string' | 'number';
   allowBlank?: boolean | undefined;
   unique?: boolean | undefined;
   comment?: string | undefined;
@@ -10,7 +10,7 @@ export interface EntityFieldDefArgs {
 export class EntityFieldDef implements Required<EntityFieldDefArgs> {
   name: string;
 
-  dataType: 'string' | 'number' | 'integer';
+  dataType: 'string' | 'number';
 
   allowBlank: boolean;
 
