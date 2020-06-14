@@ -1,31 +1,28 @@
 import { EntityDef } from "./EntityDef";
 import { EntityValue } from "./EntityValue";
-import { SpreadsheetWrapper } from "./SpreadsheetWrapper";
+import { SheetWrapper } from "./SheetWrapper";
 
-interface SpreadsheetBuilderArgs {
-  sheets: SpreadsheetWrapper;
+interface SheetBuilderArgs {
+  sheet: SheetWrapper;
   entityDef: EntityDef;
-  sheetName: string;
   baseX?: number | undefined;
   baseY?: number | undefined;
   values?: EntityValue[] | undefined;
 }
 
-export class SpreadsheetBuilder implements Required<SpreadsheetBuilderArgs>{
-  sheets: SpreadsheetWrapper;
+export class SheetBuilder implements Required<SheetBuilderArgs>{
+  sheet: SheetWrapper;
   entityDef: EntityDef;
-  sheetName: string;
   baseX: number;
   baseY: number;
   values: EntityValue[];
 
   constructor(
-    private args: SpreadsheetBuilderArgs
+    private args: SheetBuilderArgs
   ) {
     // TODO: ここに定義のバリデーション入れる
-    this.sheets = args.sheets;
+    this.sheet = args.sheet;
     this.entityDef = args.entityDef;
-    this.sheetName = args.sheetName;
     this.baseX = args.baseX ?? 0;
     this.baseY = args.baseY ?? 0;
     this.values = args.values ?? [];
