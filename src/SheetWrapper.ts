@@ -1,5 +1,5 @@
 export interface SheetWrapper {
-  setValue(x: number, y: number, value: string): void;
+  setValue(row: number, column: number, value: string): void;
 }
 
 export class GoogleSheetWrpaper implements SheetWrapper {
@@ -8,7 +8,7 @@ export class GoogleSheetWrpaper implements SheetWrapper {
   ) {
   }
 
-  setValue(x: number, y: number, value: string): void {
-    this.googleSheet.getRange(x, y).setValue(value);
+  setValue(row: number, column: number, value: string): void {
+    this.googleSheet.getRange(row, column).setValue(value);
   }
 }
