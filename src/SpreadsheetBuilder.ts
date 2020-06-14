@@ -4,7 +4,7 @@ import { SheetWrapper } from "./SheetWrapper";
 const MAX_SIZE = 300;
 const ERROR_COLOR = '#e57373';
 
-interface SheetBuilderArgs {
+interface SpreadsheetBuilderArgs {
   sheet: SheetWrapper;
   entityDef: EntityDef;
   baseX?: number | undefined;
@@ -12,7 +12,7 @@ interface SheetBuilderArgs {
   size?: number | undefined;
 }
 
-export class SheetBuilder implements Required<SheetBuilderArgs>{
+export class SpreadsheetBuilder implements Required<SpreadsheetBuilderArgs>{
   sheet: SheetWrapper;
 
   entityDef: EntityDef;
@@ -24,7 +24,7 @@ export class SheetBuilder implements Required<SheetBuilderArgs>{
   size: number;
 
   constructor(
-    args: SheetBuilderArgs
+    args: SpreadsheetBuilderArgs
   ) {
     // TODO: ここに定義のバリデーション入れる
     this.sheet = args.sheet;
