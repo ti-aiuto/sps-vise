@@ -34,9 +34,15 @@ export class SheetBuilder implements Required<SheetBuilderArgs>{
   }
 
   build(): void {
+    this.sheet.clearConditionalFormat();
     this.entityDef.fields.forEach((field, index) => {
-      this.sheet.setValue(this.baseX + 0, this.baseY + index, field.comment);
-      this.sheet.setValue(this.baseX + 1, this.baseY + index, field.name);
+      this.sheet.setValue(this.baseY + 0, this.baseX + index, field.comment);
+      this.sheet.setValue(this.baseY + 1, this.baseX + index, field.name);
+      if (field.dataType === 'integer') {
+        this.sheet.setRegexConditionalFormat(this.baseY + 2, this.baseY + 2 + MAX_SIZE - 1, this.baseX + index, this.baseX + index, "[+-]?\\d+", "#00F");
+      } else if (field.dataType === 'number') {
+        this.sheet.setRegexConditionalFormat(this.baseY + 2, this.baseY + 2 + MAX_SIZE - 1, this.baseX + index, this.baseX + index, " [+-]?(?:\\d+\\.?\\d*|\\.\\d+)", "#00F");
+      }
     });
   }
 }
