@@ -1,8 +1,8 @@
 export interface EntityRelationDefArgs {
   relationType: 'one_to_many' | 'many_to_many';
-  fieldName: string;
+  fieldName?: string | undefined;
   targetEntityName: string;
-  targetFieldName?: string | undefined;
+  targetFieldName: string;
 }
 
 export class EntityRelationDef implements EntityRelationDefArgs {
@@ -17,8 +17,8 @@ export class EntityRelationDef implements EntityRelationDefArgs {
   constructor(args: EntityRelationDefArgs) {
     // TODO: ここに定義のバリデーション入れる
     this.relationType = args.relationType;
-    this.fieldName = args.fieldName;
+    this.fieldName = args.fieldName ?? 'id';
     this.targetEntityName = args.targetEntityName;
-    this.targetFieldName = args.targetFieldName ?? 'id';
+    this.targetFieldName = args.targetFieldName;
   }
 }
