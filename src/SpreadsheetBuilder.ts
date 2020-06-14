@@ -55,7 +55,7 @@ export class SpreadsheetBuilder implements Required<SpreadsheetBuilderArgs>{
           entitySheetSetting.baseRow,
           entitySheetSetting.baseColumn + columnCount,
           entitySheetSetting.size + 3,
-          2
+          5
         );
 
         sheet.setValue(entitySheetSetting.baseRow + 0, entitySheetSetting.baseColumn + columnCount + 0, `${relation.relationType}`);
