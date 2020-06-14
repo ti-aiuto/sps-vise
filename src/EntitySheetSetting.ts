@@ -28,20 +28,4 @@ export class EntitySheetSettings implements Required<EntitySheetSettingArgs> {
     this.baseColumn = args.baseColumn ?? 1;
     this.size = args.size ?? MAX_SIZE;
   }
-
-  rowBegin(): number {
-    return this.baseRow;
-  }
-
-  columnBegin(): number {
-    return this.baseColumn;
-  }
-
-  rowEnd(): number {
-    return this.baseRow + this.size - 1;
-  }
-
-  columnEnd(): number {
-    return this.baseColumn + this.entityDef.fields.length - 1;
-  }
 }

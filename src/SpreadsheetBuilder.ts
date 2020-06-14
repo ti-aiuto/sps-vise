@@ -34,11 +34,17 @@ export class SpreadsheetBuilder implements Required<SpreadsheetBuilderArgs>{
         throw new Error(`未定義のシート名：${entitySheetSetting.sheetName}`);
       }
       sheet.clearConditionalFormatRules();
+      sheet.setValue(entitySheetSetting.baseRow + 0, entitySheetSetting.baseColumn + 0, entitySheetSetting.sheetName);
       entitySheetSetting.entityDef.fields.forEach((field, index) => {
-        sheet.setValue(entitySheetSetting.baseRow + 0, entitySheetSetting.baseColumn + index, field.comment);
-        sheet.setValue(entitySheetSetting.baseRow + 1, entitySheetSetting.baseColumn + index, field.name);
+        sheet.setValue(entitySheetSetting.baseRow + 1, entitySheetSetting.baseColumn + index, field.comment);
+        sheet.setValue(entitySheetSetting.baseRow + 2, entitySheetSetting.baseColumn + index, field.name);
       });
-      sheet.setTableBorder(entitySheetSetting.rowBegin(), entitySheetSetting.columnBegin(), entitySheetSetting.rowEnd(), entitySheetSetting.columnEnd());
+      sheet.setTableBorder(
+        entitySheetSetting.baseRow,
+        entitySheetSetting.baseColumn,
+        entitySheetSetting.size + 3,
+        entitySheetSetting.entityDef.fields.length
+      );
     });
   }
 }
