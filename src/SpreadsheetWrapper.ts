@@ -1,7 +1,16 @@
-export class SpreadsheetWrapper {
-  private spreadsheet: GoogleAppsScript.Spreadsheet.Spreadsheet;
+import { SheetWrapper, GoogleSheetWrpaper } from "./SheetWrapper";
 
-  constructor(id: string) {
-    this.spreadsheet = SpreadsheetApp.openById(id);
+export interface SpreadsheetWrapper {
+  getSheetByName(name: string): SheetWrapper;
+}
+
+export class GoogleSpreadsheetWrapper implements SpreadsheetWrapper {
+  constructor(
+    private googleSpreadsheet: GoogleAppsScript.Spreadsheet.Spreadsheet
+  ) {
+  }
+
+  getSheetByName(name: string): SheetWrapper {
+    return new GoogleSheetWrpaper(this.googleSpreadsheet.getSheetByName(name));
   }
 }
