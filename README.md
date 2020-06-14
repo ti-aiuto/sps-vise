@@ -105,7 +105,7 @@ var exportJson = function () {
   {
     "id": "1",
     "name": "test",
-    "subCategoryIds": [
+    "videoIds": [
       "2",
       "5"
     ]
@@ -113,7 +113,7 @@ var exportJson = function () {
   {
     "id": "2",
     "name": "test2",
-    "subCategoryIds": [
+    "videoIds": [
       "1",
       "4"
     ]
@@ -121,19 +121,19 @@ var exportJson = function () {
   {
     "id": "3",
     "name": "blue",
-    "subCategoryIds": [
+    "videoIds": [
       "3"
     ]
   },
   {
     "id": "4",
     "name": "red",
-    "subCategoryIds": []
+    "videoIds": []
   },
   {
     "id": "5",
     "name": "white",
-    "subCategoryIds": []
+    "videoIds": []
   }
 ]
 ```
