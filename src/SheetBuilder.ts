@@ -1,7 +1,7 @@
 import { EntityDef } from "./EntityDef";
 import { SheetWrapper } from "./SheetWrapper";
 
-const MAX_SIZE = 9999;
+const MAX_SIZE = 500;
 
 interface SheetBuilderArgs {
   sheet: SheetWrapper;
