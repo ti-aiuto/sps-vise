@@ -33,7 +33,8 @@ module.exports = {
       },
     ],
     "no-useless-constructor": "off", 
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off", 
+    "class-methods-use-this": "off"
   },
   settings: {
     "import/resolver": {
