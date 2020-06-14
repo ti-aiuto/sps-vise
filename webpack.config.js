@@ -3,7 +3,7 @@ const path = require("path");
 module.exports = {
   entry: "./src/sample.ts",
   output: {
-    library: 'global',
+    library: 'SpsVise',
     libraryTarget: 'var',
     filename: "sample.js",
     path: path.resolve(__dirname, "dist"),
