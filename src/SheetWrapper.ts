@@ -1,4 +1,5 @@
 export interface SheetWrapper {
+  clearAll(): void;
   setValue(row: number, column: number, value: string): void;
   setTableBorderRange(rowFrom: number, columnFrom: number, rowTo: number, columnTo: number): void;
   setNumberFormatRange(rowFrom: number, columnFrom: number, rowSize: number, columnSize: number, format: string): void;
@@ -11,6 +12,12 @@ export class GoogleSheetWrpaper implements SheetWrapper {
   constructor(
     private googleSheet: GoogleAppsScript.Spreadsheet.Sheet
   ) {
+  }
+
+  clearAll(): void {
+    const range = this.googleSheet.getDataRange();
+    range.clear();
+    range.setBorder(false, false, false, false, false, false);
   }
 
   setValue(row: number, column: number, value: string): void {
