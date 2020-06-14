@@ -31,8 +31,8 @@ export class SheetBuilder implements Required<SheetBuilderArgs>{
 
   build() {
     this.entityDef.fields.forEach((field, index) => {
-      this.sheet.setValue(index, 0, field.comment);
-      this.sheet.setValue(index, 1, field.name);
+      this.sheet.setValue(this.baseX + index, this.baseY + 0, field.comment);
+      this.sheet.setValue(this.baseX + index, this.baseY + 1, field.name);
     });
   }
 }
