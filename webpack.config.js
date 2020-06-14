@@ -1,9 +1,10 @@
 const path = require("path");
-const GasWebpackPlugin = require("gas-webpack-plugin");
-  
+
 module.exports = {
   entry: "./src/sample.ts",
   output: {
+    library: 'global',
+    libraryTarget: 'var',
     filename: "sample.js",
     path: path.resolve(__dirname, "dist"),
   },
@@ -16,5 +17,4 @@ module.exports = {
       },
     ],
   },
-  plugins: [new GasWebpackPlugin()],
 };
