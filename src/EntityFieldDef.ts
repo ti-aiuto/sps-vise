@@ -11,7 +11,7 @@ export class EntityFieldDef implements Required<EntityFieldDefArgs> {
   dataType: 'string' | 'number';
   allowBlank: boolean;
   unique: boolean;
-  comment: string | undefined;
+  comment: string;
 
   constructor(args: EntityFieldDefArgs) {
     // TODO: ここに定義のバリデーション入れる
@@ -19,6 +19,6 @@ export class EntityFieldDef implements Required<EntityFieldDefArgs> {
     this.dataType = args.dataType;
     this.allowBlank = args.allowBlank ?? true;
     this.unique = args.unique ?? false;
-    this.comment = args.comment;
+    this.comment = args.comment ?? '';
   }
 }
