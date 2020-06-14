@@ -1,9 +1,7 @@
-import { EntityDef } from "./EntityDef";
-import { SheetWrapper } from "./SheetWrapper";
 import { SpreadsheetWrapper } from "./SpreadsheetWrapper";
 import { EntitySheetSettings } from "./EntitySheetSetting";
 
-const ERROR_COLOR = '#e57373';
+// const ERROR_COLOR = '#e57373';
 
 interface SpreadsheetBuilderArgs {
   spreadsheet: SpreadsheetWrapper;
