@@ -24,8 +24,8 @@ export class SheetBuilder implements Required<SheetBuilderArgs>{
     // TODO: ここに定義のバリデーション入れる
     this.sheet = args.sheet;
     this.entityDef = args.entityDef;
-    this.baseX = args.baseX ?? 0;
-    this.baseY = args.baseY ?? 0;
+    this.baseX = args.baseX ?? 1;
+    this.baseY = args.baseY ?? 1;
     this.size = args.size ?? MAX_SIZE;
   }
 
