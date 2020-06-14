@@ -20,7 +20,6 @@ export class GoogleSheetWrpaper implements SheetWrapper {
   setTableBorderRange(rowFrom: number, columnFrom: number, rowSize: number, columnSize: number): void {
     const range = this.googleSheet.getRange(rowFrom, columnFrom, rowSize, columnSize);
     range.setBorder(true, true, true, true, true, true, "black", SpreadsheetApp.BorderStyle.SOLID);
-    range.setBorder(true, true, true, true, null, null, "black", SpreadsheetApp.BorderStyle.SOLID_MEDIUM);
   }
 
   setNumberFormatRange(rowFrom: number, columnFrom: number, rowSize: number, columnSize: number, format: string): void {
