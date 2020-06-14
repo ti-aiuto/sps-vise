@@ -34,21 +34,34 @@ export class SpreadsheetBuilder implements Required<SpreadsheetBuilderArgs>{
         throw new Error(`未定義のシート名：${entitySheetSetting.sheetName}`);
       }
       sheet.setValue(entitySheetSetting.baseRow + 0, entitySheetSetting.baseColumn + 0, entitySheetSetting.entityDef.name);
+      let columnCount = 0;
+
+      // Entityの定義
       entitySheetSetting.entityDef.fields.forEach((field, index) => {
         sheet.setValue(entitySheetSetting.baseRow + 1, entitySheetSetting.baseColumn + index, field.comment);
         sheet.setValue(entitySheetSetting.baseRow + 2, entitySheetSetting.baseColumn + index, field.name);
       });
+      columnCount += entitySheetSetting.entityDef.fields.length;
+
+      // Entityのリレーションの定義
+      entitySheetSetting.entityDef.relations.forEach((relation) => {
+        sheet.setValue(entitySheetSetting.baseRow + 0, entitySheetSetting.baseColumn + columnCount + 0, `${relation.relationType}`);
+        sheet.setValue(entitySheetSetting.baseRow + 2, entitySheetSetting.baseColumn + columnCount + 0, `${entitySheetSetting.entityDef.name}#id`);
+        sheet.setValue(entitySheetSetting.baseRow + 2, entitySheetSetting.baseColumn + columnCount + 1, `${relation.targetEntityName}#id`);
+        columnCount += 4;
+      });
+
       sheet.setTableBorderRange(
         entitySheetSetting.baseRow,
         entitySheetSetting.baseColumn,
         entitySheetSetting.size + 3,
-        entitySheetSetting.entityDef.fields.length
+        columnCount
       );
       sheet.setNumberFormatRange(
         entitySheetSetting.baseRow,
         entitySheetSetting.baseColumn,
         entitySheetSetting.size + 3,
-        entitySheetSetting.entityDef.fields.length, 
+        columnCount,
         '@'
       );
     });
