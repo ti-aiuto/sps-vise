@@ -60,8 +60,8 @@ export class SpreadsheetBuilder implements Required<SpreadsheetBuilderArgs>{
 
         sheet.setValue(entitySheetSetting.baseRow + 0, entitySheetSetting.baseColumn + columnCount + 0, `${relation.relationType}`);
         sheet.setValue(entitySheetSetting.baseRow + 2, entitySheetSetting.baseColumn + columnCount + 0, `${entitySheetSetting.entityDef.name}#id`);
-        sheet.setValue(entitySheetSetting.baseRow + 2, entitySheetSetting.baseColumn + columnCount + 1, `${relation.targetEntityName}#id`);
-        columnCount += 3;
+        sheet.setValue(entitySheetSetting.baseRow + 2, entitySheetSetting.baseColumn + columnCount + 2, `${relation.targetEntityName}#id`);
+        columnCount += 5;
       });
 
       sheet.setNumberFormatRange(
