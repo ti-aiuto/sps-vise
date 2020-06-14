@@ -23,8 +23,8 @@ export class GoogleSheetWrpaper implements SheetWrapper {
 
   setRegexConditionalFormat(rowFrom: number, columnFrom: number, rowTo: number, columnTo: number, regex: string, backgroundColor: string): void {
     const rules = this.googleSheet.getConditionalFormatRules();
-    for (let row = rowFrom; row <= rowTo; row++) {
-      for (let column = columnFrom; column <= columnTo; column++) {
+    for (let row = rowFrom; row <= rowTo; row += 1) {
+      for (let column = columnFrom; column <= columnTo; column += 1) {
         const rule = SpreadsheetApp.newConditionalFormatRule()
           .whenFormulaSatisfied(`=REGEXMATCH(INDIRECT(ADDRESS(${row}, ${column})), "${regex}")`)
           .setBackground(backgroundColor)
@@ -38,8 +38,8 @@ export class GoogleSheetWrpaper implements SheetWrapper {
 
   setRegexConditionalFormatNegative(rowFrom: number, columnFrom: number, rowTo: number, columnTo: number, regex: string, backgroundColor: string): void {
     const rules = this.googleSheet.getConditionalFormatRules();
-    for (let row = rowFrom; row <= rowTo; row++) {
-      for (let column = columnFrom; column <= columnTo; column++) {
+    for (let row = rowFrom; row <= rowTo; row += 1) {
+      for (let column = columnFrom; column <= columnTo; column += 1) {
         const rule = SpreadsheetApp.newConditionalFormatRule()
           .whenFormulaSatisfied(`=NOT(REGEXMATCH(INDIRECT(ADDRESS(${row}, ${column})), "${regex}"))`)
           .setBackground(backgroundColor)
