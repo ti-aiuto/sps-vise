@@ -13,9 +13,13 @@ interface SheetBuilderArgs {
 
 export class SheetBuilder implements Required<SheetBuilderArgs>{
   sheet: SheetWrapper;
+
   entityDef: EntityDef;
+
   baseX: number;
+
   baseY: number;
+
   size: number;
 
   constructor(

@@ -8,9 +8,13 @@ export interface EntityFieldDefArgs {
 
 export class EntityFieldDef implements Required<EntityFieldDefArgs> {
   name: string;
+
   dataType: 'string' | 'number';
+
   allowBlank: boolean;
+
   unique: boolean;
+
   comment: string;
 
   constructor(args: EntityFieldDefArgs) {

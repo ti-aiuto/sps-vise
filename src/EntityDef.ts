@@ -10,8 +10,11 @@ export interface EntityDefArgs {
 
 export class EntityDef implements Required<EntityDefArgs> {
   name: string;
+
   fields: EntityFieldDef[];
+
   relations: EntityRelationDef[];
+
   comment: string;
 
   constructor(args: EntityDefArgs) {

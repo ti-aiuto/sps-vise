@@ -1,3 +1,3 @@
 export interface EntityValue {
-  [key: string]: any;
+  [key: string]: string | number | string[] | number[];
 }

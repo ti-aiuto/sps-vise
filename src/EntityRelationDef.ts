@@ -7,8 +7,11 @@ export interface EntityRelationDefArgs {
 
 export class EntityRelationDef implements EntityRelationDefArgs {
   relationType: 'one_to_many' | 'many_to_many';
+
   fieldName: string;
+
   targetEntityName: string;
+
   targetFieldName: string;
 
   constructor(args: EntityRelationDefArgs) {
