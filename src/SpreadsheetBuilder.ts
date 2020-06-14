@@ -1,7 +1,9 @@
 import { EntityDef } from "./EntityDef";
 import { EntityValue } from "./EntityValue";
+import { SpreadsheetWrapper } from "./SpreadsheetWrapper";
 
 interface SpreadsheetBuilderArgs {
+  sheets: SpreadsheetWrapper;
   entityDef: EntityDef;
   sheetName: string;
   baseX?: number | undefined;
@@ -10,6 +12,7 @@ interface SpreadsheetBuilderArgs {
 }
 
 export class SpreadsheetBuilder implements Required<SpreadsheetBuilderArgs>{
+  sheets: SpreadsheetWrapper;
   entityDef: EntityDef;
   sheetName: string;
   baseX: number;
@@ -20,6 +23,7 @@ export class SpreadsheetBuilder implements Required<SpreadsheetBuilderArgs>{
     private args: SpreadsheetBuilderArgs
   ) {
     // TODO: ここに定義のバリデーション入れる
+    this.sheets = args.sheets;
     this.entityDef = args.entityDef;
     this.sheetName = args.sheetName;
     this.baseX = args.baseX ?? 0;
