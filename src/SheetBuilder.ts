@@ -35,7 +35,7 @@ export class SheetBuilder implements Required<SheetBuilderArgs>{
   }
 
   build(): void {
-    this.sheet.clearConditionalFormat();
+    this.sheet.clearConditionalFormatRules();
     this.entityDef.fields.forEach((field, index) => {
       this.sheet.setValue(this.baseY + 0, this.baseX + index, field.comment);
       this.sheet.setValue(this.baseY + 1, this.baseX + index, field.name);

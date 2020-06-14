@@ -2,7 +2,7 @@ export interface SheetWrapper {
   setValue(row: number, column: number, value: string): void;
   setRegexConditionalFormat(rowFrom: number, columnFrom: number, rowTo: number, columnTo: number, regex: string, backgroundColor: string): void;
   setRegexConditionalFormatNegative(rowFrom: number, columnFrom: number, rowTo: number, columnTo: number, regex: string, backgroundColor: string): void;
-  clearConditionalFormat(): void;
+  clearConditionalFormatRules(): void;
 }
 
 export class GoogleSheetWrpaper implements SheetWrapper {
@@ -15,7 +15,7 @@ export class GoogleSheetWrpaper implements SheetWrapper {
     this.googleSheet.getRange(row, column).setValue(value);
   }
 
-  clearConditionalFormat(): void {
+  clearConditionalFormatRules(): void {
     this.googleSheet.setConditionalFormatRules([]);
   }
 
@@ -24,8 +24,7 @@ export class GoogleSheetWrpaper implements SheetWrapper {
     for (let row = rowFrom; row <= rowTo; row++) {
       for (let column = columnFrom; column <= columnTo; column++) {
         const rule = SpreadsheetApp.newConditionalFormatRule()
-          .whenFormulaSatisfied(`REGEXMATCH(INDIRECT(ADDRESS(${row}, ${column})), "${JSON.stringify(regex)}")`)
-          .whenNumberBetween(1, 10)
+          .whenFormulaSatisfied(`=REGEXMATCH(INDIRECT(ADDRESS(${row}, ${column})), "${JSON.stringify(regex)}")`)
           .setBackground(backgroundColor)
           .setRanges([this.googleSheet.getRange(row, column)])
           .build();
@@ -40,8 +39,7 @@ export class GoogleSheetWrpaper implements SheetWrapper {
     for (let row = rowFrom; row <= rowTo; row++) {
       for (let column = columnFrom; column <= columnTo; column++) {
         const rule = SpreadsheetApp.newConditionalFormatRule()
-          .whenFormulaSatisfied(`NOT(REGEXMATCH(INDIRECT(ADDRESS(${row}, ${column})), "${JSON.stringify(regex)}"))`)
-          .whenNumberBetween(1, 10)
+          .whenFormulaSatisfied(`=NOT(REGEXMATCH(INDIRECT(ADDRESS(${row}, ${column})), "${JSON.stringify(regex)}"))`)
           .setBackground(backgroundColor)
           .setRanges([this.googleSheet.getRange(row, column)])
           .build();
