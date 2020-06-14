@@ -16,7 +16,7 @@ export class SheetBuilder implements Required<SheetBuilderArgs>{
   entityDef: EntityDef;
   baseX: number;
   baseY: number;
-  size?: number | undefined;
+  size: number;
 
   constructor(
     private args: SheetBuilderArgs
