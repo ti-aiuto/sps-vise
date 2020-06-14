@@ -12,13 +12,13 @@ export interface EntitySheetSettingArgs {
 
 export class EntitySheetSettings implements Required<EntitySheetSettingArgs> {
   entityDef: EntityDef;
-  
+
   sheetName: string;
 
   baseRow: number;
-  
+
   baseColumn: number;
-  
+
   size: number;
 
   constructor(args: EntitySheetSettingArgs) {
@@ -27,5 +27,21 @@ export class EntitySheetSettings implements Required<EntitySheetSettingArgs> {
     this.baseRow = args.baseRow ?? 1;
     this.baseColumn = args.baseColumn ?? 1;
     this.size = args.size ?? MAX_SIZE;
+  }
+
+  rowBegin(): number {
+    return this.baseRow;
+  }
+
+  columnBegin(): number {
+    return this.baseColumn;
+  }
+
+  rowEnd(): number {
+    return this.baseRow + this.size - 1;
+  }
+
+  columnEnd(): number {
+    return this.baseColumn + this.entityDef.fields.length - 1;
   }
 }

@@ -1,5 +1,6 @@
 export interface SheetWrapper {
   setValue(row: number, column: number, value: string): void;
+  setTableBorder(rowFrom: number, columnFrom: number, rowTo: number, columnTo: number): void;
   setRegexConditionalFormatRules(rowFrom: number, columnFrom: number, rowTo: number, columnTo: number, regex: string, backgroundColor: string): void;
   setRegexConditionalFormatRulesNegative(rowFrom: number, columnFrom: number, rowTo: number, columnTo: number, regex: string, backgroundColor: string): void;
   clearConditionalFormatRules(): void;
@@ -13,6 +14,10 @@ export class GoogleSheetWrpaper implements SheetWrapper {
 
   setValue(row: number, column: number, value: string): void {
     this.googleSheet.getRange(row, column).setValue(value);
+  }
+
+  setTableBorder(rowFrom: number, columnFrom: number, rowTo: number, columnTo: number): void {
+
   }
 
   clearConditionalFormatRules(): void {

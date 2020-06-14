@@ -38,6 +38,7 @@ export class SpreadsheetBuilder implements Required<SpreadsheetBuilderArgs>{
         sheet.setValue(entitySheetSetting.baseRow + 0, entitySheetSetting.baseColumn + index, field.comment);
         sheet.setValue(entitySheetSetting.baseRow + 1, entitySheetSetting.baseColumn + index, field.name);
       });
+      sheet.setTableBorder(entitySheetSetting.rowBegin(), entitySheetSetting.columnBegin(), entitySheetSetting.rowEnd(), entitySheetSetting.columnEnd());
     });
   }
 }
