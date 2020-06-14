@@ -44,9 +44,9 @@ export class SheetBuilder implements Required<SheetBuilderArgs>{
       const rowTo = this.baseY + 2 + MAX_SIZE - 1;
       const columnTo = this.baseX + index;
       if (field.dataType === 'integer') {
-        this.sheet.setRegexConditionalFormat(rowFrom, columnFrom, rowTo, columnTo, "^([+-]?\\d+)", ERROR_COLOR);
+        this.sheet.setRegexConditionalFormatNegative(rowFrom, columnFrom, rowTo, columnTo, "[+-]?\\d+", ERROR_COLOR);
       } else if (field.dataType === 'number') {
-        this.sheet.setRegexConditionalFormat(rowFrom, columnFrom, rowTo, columnTo, "^([+-]?(?:\\d+\\.?\\d*|\\.\\d+))", ERROR_COLOR);
+        this.sheet.setRegexConditionalFormatNegative(rowFrom, columnFrom, rowTo, columnTo, "[+-]?(?:\\d+\\.?\\d*|\\.\\d+)", ERROR_COLOR);
       }
     });
   }
