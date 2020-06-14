@@ -3,8 +3,8 @@ const path = require("path");
 module.exports = {
   entry: "./src/index.ts",
   output: {
-    library: 'SpsVise',
-    libraryTarget: 'var',
+    library: "SpsVise",
+    libraryTarget: "var",
     filename: "index.js",
     path: path.resolve(__dirname, "dist"),
   },
@@ -16,5 +16,8 @@ module.exports = {
         exclude: /node_modules/,
       },
     ],
+  },
+  resolve: {
+    extensions: [".ts"],
   },
 };

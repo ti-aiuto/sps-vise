@@ -32,6 +32,8 @@ module.exports = {
         tsx: "never",
       },
     ],
+    "no-useless-constructor": "off", 
+    "import/prefer-default-export": "off"
   },
   settings: {
     "import/resolver": {
