@@ -33,17 +33,43 @@ export class SpreadsheetBuilder implements Required<SpreadsheetBuilderArgs>{
       if (!sheet) {
         throw new Error(`未定義のシート名：${entitySheetSetting.sheetName}`);
       }
-      sheet.clearConditionalFormatRules();
-      sheet.setValue(entitySheetSetting.baseRow + 0, entitySheetSetting.baseColumn + 0, entitySheetSetting.sheetName);
+      sheet.setValue(entitySheetSetting.baseRow + 0, entitySheetSetting.baseColumn + 0, entitySheetSetting.entityDef.name);
+      let columnCount = 0;
+
+      // Entityの定義
       entitySheetSetting.entityDef.fields.forEach((field, index) => {
         sheet.setValue(entitySheetSetting.baseRow + 1, entitySheetSetting.baseColumn + index, field.comment);
         sheet.setValue(entitySheetSetting.baseRow + 2, entitySheetSetting.baseColumn + index, field.name);
       });
-      sheet.setTableBorder(
+      sheet.setTableBorderRange(
         entitySheetSetting.baseRow,
         entitySheetSetting.baseColumn,
         entitySheetSetting.size + 3,
         entitySheetSetting.entityDef.fields.length
+      );
+      columnCount += entitySheetSetting.entityDef.fields.length + 1;
+
+      // Entityのリレーションの定義
+      entitySheetSetting.entityDef.relations.forEach((relation) => {
+        sheet.setTableBorderRange(
+          entitySheetSetting.baseRow,
+          entitySheetSetting.baseColumn + columnCount,
+          entitySheetSetting.size + 3,
+          2
+        );
+
+        sheet.setValue(entitySheetSetting.baseRow + 0, entitySheetSetting.baseColumn + columnCount + 0, `${relation.relationType}`);
+        sheet.setValue(entitySheetSetting.baseRow + 2, entitySheetSetting.baseColumn + columnCount + 0, `${entitySheetSetting.entityDef.name}#id`);
+        sheet.setValue(entitySheetSetting.baseRow + 2, entitySheetSetting.baseColumn + columnCount + 1, `${relation.targetEntityName}#id`);
+        columnCount += 3;
+      });
+
+      sheet.setNumberFormatRange(
+        entitySheetSetting.baseRow,
+        entitySheetSetting.baseColumn,
+        entitySheetSetting.size + 3,
+        columnCount,
+        '@'
       );
     });
   }

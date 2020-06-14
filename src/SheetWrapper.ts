@@ -1,6 +1,8 @@
 export interface SheetWrapper {
+  clearAll(): void;
   setValue(row: number, column: number, value: string): void;
-  setTableBorder(rowFrom: number, columnFrom: number, rowTo: number, columnTo: number): void;
+  setTableBorderRange(rowFrom: number, columnFrom: number, rowTo: number, columnTo: number): void;
+  setNumberFormatRange(rowFrom: number, columnFrom: number, rowSize: number, columnSize: number, format: string): void;
   setRegexConditionalFormatRules(rowFrom: number, columnFrom: number, rowTo: number, columnTo: number, regex: string, backgroundColor: string): void;
   setRegexConditionalFormatRulesNegative(rowFrom: number, columnFrom: number, rowTo: number, columnTo: number, regex: string, backgroundColor: string): void;
   clearConditionalFormatRules(): void;
@@ -12,14 +14,24 @@ export class GoogleSheetWrpaper implements SheetWrapper {
   ) {
   }
 
+  clearAll(): void {
+    const range = this.googleSheet.getDataRange();
+    range.clear();
+    range.setBorder(false, false, false, false, false, false);
+  }
+
   setValue(row: number, column: number, value: string): void {
     this.googleSheet.getRange(row, column).setValue(value);
   }
 
-  setTableBorder(rowFrom: number, columnFrom: number, rowSize: number, columnSize: number): void {
+  setTableBorderRange(rowFrom: number, columnFrom: number, rowSize: number, columnSize: number): void {
     const range = this.googleSheet.getRange(rowFrom, columnFrom, rowSize, columnSize);
     range.setBorder(true, true, true, true, true, true, "black", SpreadsheetApp.BorderStyle.SOLID);
-    range.setBorder(true, true, true, true, null, null, "black", SpreadsheetApp.BorderStyle.SOLID_MEDIUM);
+  }
+
+  setNumberFormatRange(rowFrom: number, columnFrom: number, rowSize: number, columnSize: number, format: string): void {
+    const range = this.googleSheet.getRange(rowFrom, columnFrom, rowSize, columnSize);
+    range.setNumberFormat(format);
   }
 
   clearConditionalFormatRules(): void {
