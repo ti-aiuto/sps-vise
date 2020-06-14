@@ -45,6 +45,13 @@ export class SpreadsheetBuilder implements Required<SpreadsheetBuilderArgs>{
         entitySheetSetting.size + 3,
         entitySheetSetting.entityDef.fields.length
       );
+      sheet.setNumberFormat(
+        entitySheetSetting.baseRow,
+        entitySheetSetting.baseColumn,
+        entitySheetSetting.size + 3,
+        entitySheetSetting.entityDef.fields.length, 
+        '@'
+      );
     });
   }
 }
