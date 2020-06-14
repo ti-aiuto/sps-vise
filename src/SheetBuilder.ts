@@ -2,6 +2,7 @@ import { EntityDef } from "./EntityDef";
 import { SheetWrapper } from "./SheetWrapper";
 
 const MAX_SIZE = 300;
+const ERROR_COLOR = '#e57373';
 
 interface SheetBuilderArgs {
   sheet: SheetWrapper;
@@ -43,9 +44,9 @@ export class SheetBuilder implements Required<SheetBuilderArgs>{
       const rowTo = this.baseY + 2 + MAX_SIZE - 1;
       const columnTo = this.baseX + index;
       if (field.dataType === 'integer') {
-        this.sheet.setRegexConditionalFormat(rowFrom, columnFrom, rowTo, columnTo, "[+-]?\\d+", "#0000FF");
+        this.sheet.setRegexConditionalFormat(rowFrom, columnFrom, rowTo, columnTo, "^([+-]?\\d+)", ERROR_COLOR);
       } else if (field.dataType === 'number') {
-        this.sheet.setRegexConditionalFormat(rowFrom, columnFrom, rowTo, columnTo, " [+-]?(?:\\d+\\.?\\d*|\\.\\d+)", "#0000FF");
+        this.sheet.setRegexConditionalFormat(rowFrom, columnFrom, rowTo, columnTo, "^([+-]?(?:\\d+\\.?\\d*|\\.\\d+))", ERROR_COLOR);
       }
     });
   }
