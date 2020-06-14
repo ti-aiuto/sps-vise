@@ -4,6 +4,7 @@ export interface EntityFieldDefArgs {
   allowBlank?: boolean | undefined;
   unique?: boolean | undefined;
   comment?: string | undefined;
+  immutable?: boolean | undefined;
 }
 
 export class EntityFieldDef implements Required<EntityFieldDefArgs> {
@@ -17,6 +18,8 @@ export class EntityFieldDef implements Required<EntityFieldDefArgs> {
 
   comment: string;
 
+  immutable: boolean;
+
   constructor(args: EntityFieldDefArgs) {
     // TODO: ここに定義のバリデーション入れる
     this.name = args.name;
@@ -24,5 +27,6 @@ export class EntityFieldDef implements Required<EntityFieldDefArgs> {
     this.allowBlank = args.allowBlank ?? true;
     this.unique = args.unique ?? false;
     this.comment = args.comment ?? '';
+    this.immutable = args.immutable ?? false;
   }
 }

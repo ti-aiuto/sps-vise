@@ -1,7 +1,8 @@
 export interface SheetWrapper {
   setValue(row: number, column: number, value: string): void;
-  setRegexConditionalFormat(rowFrom: number, columnFrom: number, rowTo: number, columnTo: number, regex: string, backgroundColor: string): void;
-  setRegexConditionalFormatNegative(rowFrom: number, columnFrom: number, rowTo: number, columnTo: number, regex: string, backgroundColor: string): void;
+  setTableBorder(rowFrom: number, columnFrom: number, rowTo: number, columnTo: number): void;
+  setRegexConditionalFormatRules(rowFrom: number, columnFrom: number, rowTo: number, columnTo: number, regex: string, backgroundColor: string): void;
+  setRegexConditionalFormatRulesNegative(rowFrom: number, columnFrom: number, rowTo: number, columnTo: number, regex: string, backgroundColor: string): void;
   clearConditionalFormatRules(): void;
 }
 
@@ -15,13 +16,19 @@ export class GoogleSheetWrpaper implements SheetWrapper {
     this.googleSheet.getRange(row, column).setValue(value);
   }
 
+  setTableBorder(rowFrom: number, columnFrom: number, rowSize: number, columnSize: number): void {
+    const range = this.googleSheet.getRange(rowFrom, columnFrom, rowSize, columnSize);
+    range.setBorder(true, true, true, true, true, true, "black", SpreadsheetApp.BorderStyle.SOLID);
+    range.setBorder(true, true, true, true, null, null, "black", SpreadsheetApp.BorderStyle.SOLID_MEDIUM);
+  }
+
   clearConditionalFormatRules(): void {
     this.googleSheet.setConditionalFormatRules([]);
   }
 
   // TODO: 本当は正規表現などエスケープ必要
 
-  setRegexConditionalFormat(rowFrom: number, columnFrom: number, rowTo: number, columnTo: number, regex: string, backgroundColor: string): void {
+  setRegexConditionalFormatRules(rowFrom: number, columnFrom: number, rowTo: number, columnTo: number, regex: string, backgroundColor: string): void {
     const rules = this.googleSheet.getConditionalFormatRules();
     for (let row = rowFrom; row <= rowTo; row += 1) {
       for (let column = columnFrom; column <= columnTo; column += 1) {
@@ -36,7 +43,7 @@ export class GoogleSheetWrpaper implements SheetWrapper {
     this.googleSheet.setConditionalFormatRules(rules);
   }
 
-  setRegexConditionalFormatNegative(rowFrom: number, columnFrom: number, rowTo: number, columnTo: number, regex: string, backgroundColor: string): void {
+  setRegexConditionalFormatRulesNegative(rowFrom: number, columnFrom: number, rowTo: number, columnTo: number, regex: string, backgroundColor: string): void {
     const rules = this.googleSheet.getConditionalFormatRules();
     for (let row = rowFrom; row <= rowTo; row += 1) {
       for (let column = columnFrom; column <= columnTo; column += 1) {
