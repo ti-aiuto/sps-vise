@@ -45,10 +45,10 @@ export class SheetBuilder implements Required<SheetBuilderArgs>{
       const columnTo = this.baseX + index;
       if (field.dataType === 'integer') {
         // eslint-disable-next-line no-useless-escape
-        this.sheet.setRegexConditionalFormatNegative(rowFrom, columnFrom, rowTo, columnTo, "[+-]?\d+", ERROR_COLOR);
+        this.sheet.setRegexConditionalFormatRulesNegative(rowFrom, columnFrom, rowTo, columnTo, "[+-]?\d+", ERROR_COLOR);
       } else if (field.dataType === 'number') {
         // eslint-disable-next-line no-useless-escape
-        this.sheet.setRegexConditionalFormatNegative(rowFrom, columnFrom, rowTo, columnTo, "[+-]?(?:\d+\.?\d*|\.\d+)", ERROR_COLOR);
+        this.sheet.setRegexConditionalFormatRulesNegative(rowFrom, columnFrom, rowTo, columnTo, "[+-]?(?:\d+\.?\d*|\.\d+)", ERROR_COLOR);
       }
     });
   }
