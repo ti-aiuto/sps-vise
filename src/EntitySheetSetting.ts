@@ -2,7 +2,7 @@ import { EntityDef } from ".";
 
 const MAX_SIZE = 50;
 
-export interface EntitySheetSettingsArgs {
+export interface EntitySheetSettingArgs {
   entityDef: EntityDef;
   sheetName?: string;
   baseRow?: number | undefined;
@@ -10,14 +10,14 @@ export interface EntitySheetSettingsArgs {
   size?: number | undefined;
 }
 
-export class EntitySheetSettings implements Required<EntitySheetSettingsArgs> {
+export class EntitySheetSettings implements Required<EntitySheetSettingArgs> {
   entityDef: EntityDef;
   sheetName: string;
   baseRow: number;
   baseColumn: number;
   size: number;
 
-  constructor(args: EntitySheetSettingsArgs) {
+  constructor(args: EntitySheetSettingArgs) {
     this.entityDef = args.entityDef;
     this.sheetName = args.sheetName ?? args.entityDef.name;
     this.baseRow = args.baseRow ?? 1;
