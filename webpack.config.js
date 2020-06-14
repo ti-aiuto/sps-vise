@@ -1,11 +1,11 @@
 const path = require("path");
 
 module.exports = {
-  entry: "./src/sample.ts",
+  entry: "./src/index.ts",
   output: {
     library: 'SpsVise',
     libraryTarget: 'var',
-    filename: "sample.js",
+    filename: "index.js",
     path: path.resolve(__dirname, "dist"),
   },
   module: {
