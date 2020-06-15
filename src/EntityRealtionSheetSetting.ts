@@ -1,10 +1,11 @@
 interface EntityRelationSheetSettingArgs {
   relationName: string;
   sheetName?: string | undefined;
-  baseRow?: number | undefined;
-  baseColumn?: number | undefined;
+  baseRow: number | undefined;
   size?: number | undefined;
-  orderNumberColumnName?: string | undefined;
+  homeIdColumnNumber: string;
+  foreignIdColumnNumber: string;
+  orderNumberColumnNumber?: string  | undefined;
 }
 
 // TODO: ここ定数化
@@ -17,18 +18,21 @@ export class EntityRelationSheetSetting implements Required<EntityRelationSheetS
 
   baseRow: number;
 
-  baseColumn: number;
-
   size: number;
 
-  orderNumberColumnName: string;
+  homeIdColumnNumber: string;
+
+  foreignIdColumnNumber: string;
+
+  orderNumberColumnNumber: string | undefined;
 
   constructor(args: EntityRelationSheetSettingArgs) {
     this.relationName = args.relationName;
     this.sheetName = args.sheetName ?? args.relationName;
     this.baseRow = args.baseRow ?? 1;
-    this.baseColumn = args.baseColumn ?? 1;
     this.size = args.size ?? MAX_SIZE;
-    this.orderNumberColumnName =  args.orderNumberColumnName ?? '';
+    this.orderNumberColumnNumber =  args.orderNumberColumnNumber ?? undefined;
+    this.homeIdColumnNumber = args.homeIdColumnNumber ?? undefined;
+    this.foreignIdColumnNumber = args.foreignIdColumnNumber ?? undefined;
   }
 }
