@@ -90,7 +90,7 @@ export class JSONBuilder implements JSONBuilderArgs {
           1
         )
         .forEach((item, index) => relationCellValues[index].push(item[0]));
-        if (!Number.isNaN(relationSheetSetting.orderNumberColumnNumber)) {
+      if (!Number.isNaN(relationSheetSetting.orderNumberColumnNumber)) {
         relationSheet
           .getValuesRange(
             relationSheetSetting.baseRow + 3,
@@ -127,18 +127,11 @@ export class JSONBuilder implements JSONBuilderArgs {
         const entityMatchedRows = filteredRealtionCellValues.filter(
           (row) => `${row[0]}` === `${entity.id}`
         );
-        const relationResult = entityMatchedRows
-          .map((row) => [row[1], Number(2)])
-          .sort((a, b) => {
-            if (a[1] > b[1]) {
-              return 1;
-            }
-            if (a[1] < b[1]) {
-              return -1;
-            }
-            return 0;
-          })
-          .map((row) => row[0]) as string[];
+        const entityMatchedRowsSorted = this.sortBy<string[]>(
+          entityMatchedRows,
+          (item) => Number(item[1])
+        );
+        const relationResult = entityMatchedRowsSorted.map((item) => item[0]);
         // eslint-disable-next-line no-param-reassign
         entity[relation.name] = relationResult;
       });
@@ -169,5 +162,22 @@ export class JSONBuilder implements JSONBuilderArgs {
       }
     });
     return result;
+  }
+
+  private sortBy<T>(array: T[], f: (item: T) => any): T[] {
+    const cloned = [...array];
+    cloned.sort(function (a, b) {
+      // NOTICE: 本当はここ非効率だけどそもそもこのメソッドを自力で書いてるのを直したい
+      const aComparable = f(a);
+      const bComparable = f(b);
+      if (aComparable > bComparable) {
+        return 1;
+      }
+      if (aComparable < bComparable) {
+        return -1;
+      }
+      return 0;
+    });
+    return cloned;
   }
 }
