@@ -147,7 +147,7 @@ export class JSONBuilder implements JSONBuilderArgs {
     const result: EntityValue = {};
     entityDef.fields.forEach((field, index) => {
       const rawValue = row[index];
-      if (rawValue === "") {
+      if (rawValue.trim() === "") {
         if (field.allowBlank) {
           result[field.name] = null;
           return;
@@ -161,7 +161,16 @@ export class JSONBuilder implements JSONBuilderArgs {
         if (Number.isNaN(numberParsed)) {
           throw new Error(`数値型${field.name}の形式が不正です：${rawValue}`);
         }
-        result[field.name] = rawValue;
+        result[field.name] = numberParsed;
+      } else if (field.dataType === 'boolean') {
+        const valueLowerCase = rawValue.toLowerCase();
+        if (['true', '1'].includes(valueLowerCase)) {
+          result[field.name] = true;
+        } else if (['false', '0'].includes(valueLowerCase)) {
+          result[field.name] = false;
+        } else {
+          throw new Error(`真偽値型${field.name}の形式が不正です：${rawValue}`);
+        }
       }
     });
     return result;
