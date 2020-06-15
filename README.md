@@ -65,20 +65,6 @@ const settings = [
 ];
 ```
 
-## 入稿用シート生成
-
-### GAS用関数
-
-
-```TS
-var initSheets = function () {
-  new SpsVise.SpreadsheetBuilder({
-    spreadsheet: googleSpreadsheet,
-    entitySheetSettings: settings
-  }).build();
-}
-```
-
 ## JSON出力
 
 ### GAS用関数
