@@ -5,7 +5,7 @@ interface EntityRelationSheetSettingArgs {
   size?: number | undefined;
   homeIdColumnNumber: number;
   foreignIdColumnNumber: number;
-  orderNumberColumnNumber?: number | null | undefined;
+  orderNumberColumnNumber?: number | undefined;
 }
 
 // TODO: ここ定数化
@@ -25,15 +25,15 @@ export class EntityRelationSheetSetting
 
   foreignIdColumnNumber: number;
 
-  orderNumberColumnNumber: number | null;
+  orderNumberColumnNumber: number;
 
   constructor(args: EntityRelationSheetSettingArgs) {
     this.relationName = args.relationName;
     this.sheetName = args.sheetName ?? args.relationName;
     this.baseRow = args.baseRow ?? 1;
     this.size = args.size ?? MAX_SIZE;
-    this.orderNumberColumnNumber = args.orderNumberColumnNumber ?? undefined;
     this.homeIdColumnNumber = args.homeIdColumnNumber ?? undefined;
     this.foreignIdColumnNumber = args.foreignIdColumnNumber ?? undefined;
+    this.orderNumberColumnNumber = args.orderNumberColumnNumber ?? NaN;
   }
 }
