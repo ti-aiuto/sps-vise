@@ -100,7 +100,6 @@ export class JSONBuilder implements JSONBuilderArgs {
           )
           .forEach((item, index) => relationCellValues[index].push(item[0]));
       }
-      console.log(relationCellValues);
 
       const filteredRealtionCellValues: string[][] = [];
       relationCellValues.forEach((row, cellIndex) => {
