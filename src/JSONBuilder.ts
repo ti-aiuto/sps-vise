@@ -16,34 +16,36 @@ export class JSONBuilder implements JSONBuilderArgs {
 
   entityName: string;
 
-  constructor(
-    args: JSONBuilderArgs
-  ) {
+  constructor(args: JSONBuilderArgs) {
     this.spreadsheet = args.spreadsheet;
     this.entitySheetSettings = args.entitySheetSettings;
     this.entityName = args.entityName;
   }
 
   build(): EntityValue[] {
-    const entitySheetSetting = this.entitySheetSettings.find((item) => item.entityDef.name === this.entityName);
+    const entitySheetSetting = this.entitySheetSettings.find(
+      (item) => item.entityDef.name === this.entityName
+    );
     if (!entitySheetSetting) {
       throw new Error(`未定義のEntity名：${this.entityName}`);
     }
 
     const result: EntityValue[] = [];
     {
-      const entitySheet = this.spreadsheet.getSheetByName(entitySheetSetting.sheetName);
+      const entitySheet = this.spreadsheet.getSheetByName(
+        entitySheetSetting.sheetName
+      );
       if (!entitySheet) {
         throw new Error(`未定義のシート名：${entitySheetSetting.sheetName}`);
       }
-  
+
       const entityCellValues = entitySheet.getValuesRange(
         entitySheetSetting.baseRow + 3,
         entitySheetSetting.baseColumn,
         entitySheetSetting.size + 3,
         entitySheetSetting.entityDef.fields.length
       );
-  
+
       entityCellValues.forEach((row) => {
         if (row.some((item) => item.length > 0)) {
           result.push(this.buildObject(entitySheetSetting.entityDef, row));
@@ -53,54 +55,57 @@ export class JSONBuilder implements JSONBuilderArgs {
 
     // Entityのリレーションの定義
     entitySheetSetting.relationSheetSettings.forEach((relationSheetSetting) => {
-      const relation = entitySheetSetting.entityDef.relations.find((item) => item.name === relationSheetSetting.relationName);
+      const relation = entitySheetSetting.entityDef.relations.find(
+        (item) => item.name === relationSheetSetting.relationName
+      );
       if (!relation) {
-        throw new Error(`リレーション定義が不明：${relationSheetSetting.relationName}`);
+        throw new Error(
+          `リレーション定義が不明：${relationSheetSetting.relationName}`
+        );
       }
-      result.forEach((item) => {
-        // eslint-disable-next-line no-param-reassign
-        item[relation.name] = [];
-      });
+      const relationSheet = this.spreadsheet.getSheetByName(
+        relationSheetSetting.sheetName
+      );
+      if (!relationSheet) {
+        throw new Error(`未定義のシート名：${relationSheetSetting.sheetName}`);
+      }
 
-      const relationSheet = this.spreadsheet.getSheetByName(relationSheetSetting.sheetName);
       const relationCellValues: string[][] = [];
-      result.forEach((item, index) => relationCellValues[index] = []);
-      relationSheet.getValuesRange(
-        relationSheetSetting.baseRow + 3,
-        relationSheetSetting.homeIdColumnNumber,
-        relationSheetSetting.size + 3,
-        1
-      ).forEach((item, index) => relationCellValues[index].push(item[0]));
-      relationSheet.getValuesRange(
-        relationSheetSetting.baseRow + 3,
-        relationSheetSetting.foreignIdColumnNumber,
-        relationSheetSetting.size + 3,
-        1
-      ).forEach((item, index) => relationCellValues[index].push(item[0]));
-      if (relationSheetSetting.orderNumberColumnNumber !== undefined) {
-        relationSheet.getValuesRange(
+      result.forEach((_, index) => {
+        relationCellValues[index] = [];
+      });
+      relationSheet
+        .getValuesRange(
           relationSheetSetting.baseRow + 3,
-          relationSheetSetting.orderNumberColumnNumber,
+          relationSheetSetting.homeIdColumnNumber,
           relationSheetSetting.size + 3,
           1
-        ).forEach((item, index) => relationCellValues[index].push(item[0]));
+        )
+        .forEach((item, index) => relationCellValues[index].push(item[0]));
+      relationSheet
+        .getValuesRange(
+          relationSheetSetting.baseRow + 3,
+          relationSheetSetting.foreignIdColumnNumber,
+          relationSheetSetting.size + 3,
+          1
+        )
+        .forEach((item, index) => relationCellValues[index].push(item[0]));
+      if (relationSheetSetting.orderNumberColumnNumber !== undefined) {
+        relationSheet
+          .getValuesRange(
+            relationSheetSetting.baseRow + 3,
+            relationSheetSetting.orderNumberColumnNumber,
+            relationSheetSetting.size + 3,
+            1
+          )
+          .forEach((item, index) => relationCellValues[index].push(item[0]));
       }
-    });
-
-    entitySheetSetting.entityDef.relations.forEach((relation, fieldIndex) => {
-
-      const currentColumnPosition = entitySheetSetting.entityDef.fields.length + 1 + fieldIndex * 5;
-      const relationCellValues = sheet.getValuesRange(
-        entitySheetSetting.baseRow + 3,
-        entitySheetSetting.baseColumn + currentColumnPosition,
-        entitySheetSetting.size + 3,
-        4 // TODO: この辺の値どこかに定数化する
-      );
-
+      const filteredRealtionCellValues: string[][] = [];
       relationCellValues.forEach((row, cellIndex) => {
         if (row.some((item) => item.length > 0)) {
           const homeId = row[0];
-          const foreignId = row[2];
+          const foreignId = row[1];
+          const orderNumber = row[2];
           if (homeId.length === 0 || foreignId.length === 0) {
             throw new Error(`${cellIndex + 1}番目の項目のIDが未入力`);
           }
@@ -109,12 +114,33 @@ export class JSONBuilder implements JSONBuilderArgs {
           if (!entity) {
             throw new Error(`${cellIndex + 1}番目の項目のIDが不明`);
           }
-          // NOTICE: idはstring固定仕様にしたい
-          (entity[relation.name] as unknown as string[]).push(foreignId);
+          if (orderNumber !== undefined && Number.isNaN(Number(orderNumber))) {
+            throw new Error(`${cellIndex + 1}番目の項目の並び順が未流力`);
+          }
+          filteredRealtionCellValues.push(row);
         }
       });
-    });
 
+      result.forEach((entity) => {
+        const entityMatchedRows = filteredRealtionCellValues.filter(
+          (row) => `${row[0]}` === `${entity.id}`
+        );
+        const relationResult = entityMatchedRows
+          .map((row) => [row[1], Number(2)])
+          .sort((a, b) => {
+            if (a[1] > b[1]) {
+              return 1;
+            }
+            if (a[1] < b[1]) {
+              return -1;
+            }
+            return 0;
+          })
+          .map((row) => row[0]) as string[];
+        // eslint-disable-next-line no-param-reassign
+        entity[relation.name] = relationResult;
+      });
+    });
     return result;
   }
 
@@ -123,16 +149,16 @@ export class JSONBuilder implements JSONBuilderArgs {
     const result: EntityValue = {};
     entityDef.fields.forEach((field, index) => {
       const rawValue = row[index];
-      if (rawValue === '') {
+      if (rawValue === "") {
         if (field.allowBlank) {
           result[field.name] = null;
           return;
         }
         throw new Error(`${field.name}の値が空白です:${JSON.stringify(row)}`);
       }
-      if (field.dataType === 'string') {
+      if (field.dataType === "string") {
         result[field.name] = rawValue;
-      } else if (field.dataType === 'number') {
+      } else if (field.dataType === "number") {
         const numberParsed = Number(rawValue);
         if (Number.isNaN(numberParsed)) {
           throw new Error(`数値型${field.name}の形式が不正です：${rawValue}`);
