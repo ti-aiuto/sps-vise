@@ -71,7 +71,7 @@ export class JSONBuilder implements JSONBuilderArgs {
       }
 
       const relationCellValues: string[][] = [];
-      for (let i = 1; i <= relationSheetSetting.size; i++) {
+      for (let i = 1; i <= relationSheetSetting.size; i+= 1) {
         relationCellValues.push([]);
       }
       relationSheet
@@ -167,9 +167,10 @@ export class JSONBuilder implements JSONBuilderArgs {
     return result;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private sortBy<T>(array: T[], f: (item: T) => any): T[] {
     const cloned = [...array];
-    cloned.sort(function (a, b) {
+    cloned.sort((a, b) => {
       // NOTICE: 本当はここ非効率だけどそもそもこのメソッドを自力で書いてるのを直したい
       const aComparable = f(a);
       const bComparable = f(b);
