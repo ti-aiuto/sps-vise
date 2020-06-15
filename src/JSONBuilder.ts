@@ -42,7 +42,7 @@ export class JSONBuilder implements JSONBuilderArgs {
       const entityCellValues = entitySheet.getValuesRange(
         entitySheetSetting.baseRow + 3,
         entitySheetSetting.baseColumn,
-        entitySheetSetting.size + 3,
+        entitySheetSetting.size,
         entitySheetSetting.entityDef.fields.length
       );
 
@@ -71,14 +71,14 @@ export class JSONBuilder implements JSONBuilderArgs {
       }
 
       const relationCellValues: string[][] = [];
-      result.forEach((_, index) => {
-        relationCellValues[index] = [];
-      });
+      for (let i = 1; i <= relationSheetSetting.size; i++) {
+        relationCellValues.push([]);
+      }
       relationSheet
         .getValuesRange(
           relationSheetSetting.baseRow + 3,
           relationSheetSetting.homeIdColumnNumber,
-          relationSheetSetting.size + 3,
+          relationSheetSetting.size,
           1
         )
         .forEach((item, index) => relationCellValues[index].push(item[0]));
@@ -86,20 +86,22 @@ export class JSONBuilder implements JSONBuilderArgs {
         .getValuesRange(
           relationSheetSetting.baseRow + 3,
           relationSheetSetting.foreignIdColumnNumber,
-          relationSheetSetting.size + 3,
+          relationSheetSetting.size,
           1
         )
         .forEach((item, index) => relationCellValues[index].push(item[0]));
-      if (relationSheetSetting.orderNumberColumnNumber !== undefined) {
+        if (!Number.isNaN(relationSheetSetting.orderNumberColumnNumber)) {
         relationSheet
           .getValuesRange(
             relationSheetSetting.baseRow + 3,
             relationSheetSetting.orderNumberColumnNumber,
-            relationSheetSetting.size + 3,
+            relationSheetSetting.size,
             1
           )
           .forEach((item, index) => relationCellValues[index].push(item[0]));
       }
+      console.log(relationCellValues);
+
       const filteredRealtionCellValues: string[][] = [];
       relationCellValues.forEach((row, cellIndex) => {
         if (row.some((item) => item.length > 0)) {
