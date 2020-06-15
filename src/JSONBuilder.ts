@@ -163,7 +163,7 @@ export class JSONBuilder implements JSONBuilderArgs {
         }
         result[field.name] = numberParsed;
       } else if (field.dataType === 'boolean') {
-        result[field.name] = new Boolean(rawValue);
+        result[field.name] = new Boolean(rawValue).valueOf();
       }
     });
     return result;
