@@ -4,6 +4,7 @@ interface EntityRelationSheetSettingArgs {
   baseRow?: number | undefined;
   baseColumn?: number | undefined;
   size?: number | undefined;
+  orderNumberColumnName?: string | undefined;
 }
 
 // TODO: ここ定数化
@@ -20,11 +21,14 @@ export class EntityRelationSheetSetting implements Required<EntityRelationSheetS
 
   size: number;
 
+  orderNumberColumnName: string;
+
   constructor(args: EntityRelationSheetSettingArgs) {
     this.relationName = args.relationName;
     this.sheetName = args.sheetName ?? args.relationName;
     this.baseRow = args.baseRow ?? 1;
     this.baseColumn = args.baseColumn ?? 1;
     this.size = args.size ?? MAX_SIZE;
+    this.orderNumberColumnName =  args.orderNumberColumnName ?? '';
   }
 }
