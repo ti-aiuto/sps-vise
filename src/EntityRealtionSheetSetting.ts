@@ -3,9 +3,9 @@ interface EntityRelationSheetSettingArgs {
   sheetName?: string | undefined;
   baseRow: number | undefined;
   size?: number | undefined;
-  homeIdColumnNumber: string;
-  foreignIdColumnNumber: string;
-  orderNumberColumnNumber?: string  | undefined;
+  homeIdColumnNumber: number;
+  foreignIdColumnNumber: number;
+  orderNumberColumnNumber?: number  | undefined;
 }
 
 // TODO: ここ定数化
@@ -20,11 +20,11 @@ export class EntityRelationSheetSetting implements Required<EntityRelationSheetS
 
   size: number;
 
-  homeIdColumnNumber: string;
+  homeIdColumnNumber: number;
 
-  foreignIdColumnNumber: string;
+  foreignIdColumnNumber: number;
 
-  orderNumberColumnNumber: string | undefined;
+  orderNumberColumnNumber: number | undefined;
 
   constructor(args: EntityRelationSheetSettingArgs) {
     this.relationName = args.relationName;
