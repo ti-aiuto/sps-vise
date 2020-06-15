@@ -115,7 +115,10 @@ export class JSONBuilder implements JSONBuilderArgs {
           if (!entity) {
             throw new Error(`${cellIndex + 1}番目の項目のIDが未入力`);
           }
-          if (orderNumber !== undefined && Number.isNaN(Number(orderNumber))) {
+          if (
+            orderNumber !== undefined &&
+            (orderNumber === "" || Number.isNaN(Number(orderNumber)))
+          ) {
             throw new Error(`${cellIndex + 1}番目の項目の並び順が未入力`);
           }
           filteredRealtionCellValues.push(row);
@@ -126,10 +129,11 @@ export class JSONBuilder implements JSONBuilderArgs {
         const entityMatchedRows = filteredRealtionCellValues.filter(
           (row) => `${row[0]}` === `${entity.id}`
         );
-        const entityMatchedRowsSorted = Number.isNaN(relationSheetSetting.orderNumberColumnNumber) ? entityMatchedRows :  this.sortBy<string[]>(
-          entityMatchedRows,
-          (item) => Number(item[2])
-        );
+        const entityMatchedRowsSorted = Number.isNaN(
+          relationSheetSetting.orderNumberColumnNumber
+        )
+          ? entityMatchedRows
+          : this.sortBy<string[]>(entityMatchedRows, (item) => Number(item[2]));
         const relationResult = entityMatchedRowsSorted.map((item) => item[1]);
         // eslint-disable-next-line no-param-reassign
         entity[relation.name] = relationResult;
