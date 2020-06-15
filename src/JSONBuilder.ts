@@ -161,7 +161,7 @@ export class JSONBuilder implements JSONBuilderArgs {
         if (Number.isNaN(numberParsed)) {
           throw new Error(`数値型${field.name}の形式が不正です：${rawValue}`);
         }
-        result[field.name] = rawValue;
+        result[field.name] = numberParsed;
       }
     });
     return result;
