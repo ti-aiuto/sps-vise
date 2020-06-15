@@ -147,7 +147,7 @@ export class JSONBuilder implements JSONBuilderArgs {
     const result: EntityValue = {};
     entityDef.fields.forEach((field, index) => {
       const rawValue = row[index];
-      if (rawValue === "") {
+      if (rawValue.trim() === "") {
         if (field.allowBlank) {
           result[field.name] = null;
           return;
@@ -162,6 +162,8 @@ export class JSONBuilder implements JSONBuilderArgs {
           throw new Error(`数値型${field.name}の形式が不正です：${rawValue}`);
         }
         result[field.name] = numberParsed;
+      } else if (field.dataType === 'boolean') {
+        result[field.name] = new Boolean(rawValue);
       }
     });
     return result;
