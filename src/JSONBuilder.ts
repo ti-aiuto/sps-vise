@@ -29,31 +29,65 @@ export class JSONBuilder implements JSONBuilderArgs {
     if (!entitySheetSetting) {
       throw new Error(`未定義のEntity名：${this.entityName}`);
     }
-    const sheet = this.spreadsheet.getSheetByName(entitySheetSetting.sheetName);
-    if (!sheet) {
-      throw new Error(`未定義のシート名：${entitySheetSetting.sheetName}`);
-    }
 
     const result: EntityValue[] = [];
-    const entityCellValues = sheet.getValuesRange(
-      entitySheetSetting.baseRow + 3,
-      entitySheetSetting.baseColumn,
-      entitySheetSetting.size + 3,
-      entitySheetSetting.entityDef.fields.length
-    );
-
-    entityCellValues.forEach((row) => {
-      if (row.some((item) => item.length > 0)) {
-        result.push(this.buildObject(entitySheetSetting.entityDef, row));
+    {
+      const entitySheet = this.spreadsheet.getSheetByName(entitySheetSetting.sheetName);
+      if (!entitySheet) {
+        throw new Error(`未定義のシート名：${entitySheetSetting.sheetName}`);
       }
-    });
+  
+      const entityCellValues = entitySheet.getValuesRange(
+        entitySheetSetting.baseRow + 3,
+        entitySheetSetting.baseColumn,
+        entitySheetSetting.size + 3,
+        entitySheetSetting.entityDef.fields.length
+      );
+  
+      entityCellValues.forEach((row) => {
+        if (row.some((item) => item.length > 0)) {
+          result.push(this.buildObject(entitySheetSetting.entityDef, row));
+        }
+      });
+    }
 
     // Entityのリレーションの定義
-    entitySheetSetting.entityDef.relations.forEach((relation, fieldIndex) => {
+    entitySheetSetting.relationSheetSettings.forEach((relationSheetSetting) => {
+      const relation = entitySheetSetting.entityDef.relations.find((item) => item.name === relationSheetSetting.relationName);
+      if (!relation) {
+        throw new Error(`リレーション定義が不明：${relationSheetSetting.relationName}`);
+      }
       result.forEach((item) => {
         // eslint-disable-next-line no-param-reassign
         item[relation.name] = [];
       });
+
+      const relationSheet = this.spreadsheet.getSheetByName(relationSheetSetting.sheetName);
+      const relationCellValues: string[][] = [];
+      result.forEach((item, index) => relationCellValues[index] = []);
+      relationSheet.getValuesRange(
+        relationSheetSetting.baseRow + 3,
+        relationSheetSetting.homeIdColumnNumber,
+        relationSheetSetting.size + 3,
+        1
+      ).forEach((item, index) => relationCellValues[index].push(item[0]));
+      relationSheet.getValuesRange(
+        relationSheetSetting.baseRow + 3,
+        relationSheetSetting.foreignIdColumnNumber,
+        relationSheetSetting.size + 3,
+        1
+      ).forEach((item, index) => relationCellValues[index].push(item[0]));
+      if (relationSheetSetting.orderNumberColumnNumber !== undefined) {
+        relationSheet.getValuesRange(
+          relationSheetSetting.baseRow + 3,
+          relationSheetSetting.orderNumberColumnNumber,
+          relationSheetSetting.size + 3,
+          1
+        ).forEach((item, index) => relationCellValues[index].push(item[0]));
+      }
+    });
+
+    entitySheetSetting.entityDef.relations.forEach((relation, fieldIndex) => {
 
       const currentColumnPosition = entitySheetSetting.entityDef.fields.length + 1 + fieldIndex * 5;
       const relationCellValues = sheet.getValuesRange(
