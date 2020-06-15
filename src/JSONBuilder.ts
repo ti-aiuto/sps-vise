@@ -163,7 +163,14 @@ export class JSONBuilder implements JSONBuilderArgs {
         }
         result[field.name] = numberParsed;
       } else if (field.dataType === 'boolean') {
-        result[field.name] = new Boolean(rawValue).valueOf();
+        const valueLowerCase = rawValue.toLowerCase();
+        if (['true', '1'].includes(valueLowerCase)) {
+          result[field.name] = true;
+        } else if (['false', '0'].includes(valueLowerCase)) {
+          result[field.name] = false;
+        } else {
+          throw new Error(`真偽値型${field.name}の形式が不正です：${rawValue}`);
+        }
       }
     });
     return result;
